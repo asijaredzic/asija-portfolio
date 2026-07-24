@@ -577,21 +577,8 @@ a {
   color: var(--indigo-bright);
   font-variant-numeric: tabular-nums;
 }
-.skill__track {
-  height: 10px;
-  border-radius: 999px;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  overflow: hidden;
-}
-.skill__fill {
-  height: 100%;
-  width: 0;
-  border-radius: 999px;
-  background: linear-gradient(90deg, var(--indigo), var(--indigo-bright));
-  box-shadow: 0 0 18px rgba(99, 102, 241, 0.8);
-  transition: width 1.3s var(--ease);
-}
+.skill__track {  height: 10px; border-radius: 999px; background: var(--surface); border: 1px solid var(--line); overflow: hidden; } 
+.skill__fill { height: 100%; width: 0; border-radius: 999px; background: linear-gradient(90deg, var(--indigo), var(--indigo-bright)); box-shadow: 0 0 18px rgba(99, 102, 241, 0.8); transition: width 1.3s var(--ease); }
 .skill__name {
   font-size: clamp(1.1rem, 2vw, 1.6rem);
   font-weight: 700;
