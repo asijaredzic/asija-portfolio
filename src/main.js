@@ -26,7 +26,7 @@ function renderSkills() {
       <li class="skill reveal">
         <span class="skill__pct">${s.level}%</span>
         <span class="skill__track">
-          <span class="skill__fill" data-level="${s.level}"></span>
+          <span class="skill__fill" style="width:${s.level}%"></span>
         </span>
         <span class="skill__name">${s.name}</span>
       </li>`
@@ -248,10 +248,14 @@ function initToTop() {
 /* ---------- Init ---------- */
 document.addEventListener("DOMContentLoaded", () => {
   renderSkills();
+
+  requestAnimationFrame(() => {
+    initReveal();
+  });
+
   initLoader();
   initCursor();
   initHero();
-  initReveal();
   initCounters();
   initNav();
   initToTop();
