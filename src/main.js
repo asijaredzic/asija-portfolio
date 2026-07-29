@@ -61,6 +61,7 @@ function initCursor() {
 
   window.addEventListener("mousemove", (e) => {
     mx = e.clientX;
+    
     my = e.clientY;
     dot.style.transform = `translate(${mx}px, ${my}px) translate(-50%, -50%)`;
   });
