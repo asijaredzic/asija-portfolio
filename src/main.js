@@ -5,12 +5,12 @@
 
 /* ---------- Data: edit these to update the site ---------- */
 const SKILLS = [
-  { name: "JavaScript / TypeScript", level: 95 },
-  { name: "React & React Native", level: 90 },
-  { name: "PHP & MySQL", level: 88 },
-  { name: "Python", level: 90 },
-  { name: "HTML & CSS", level: 98 },
-  { name: "Node & REST APIs", level: 85 },
+  { name: "HTML & CSS", level: 80 },
+  { name: "PHP & MySQL", level: 65 },
+  { name: "Python", level: 62 },
+  { name: "JavaScript / TypeScript", level: 58 },
+  { name: "Node & REST APIs", level: 50 },
+  { name: "React & React Native", level: 45 },
 ];
 
 const prefersReduced = window.matchMedia(
