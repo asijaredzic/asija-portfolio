@@ -363,14 +363,57 @@ a {
   position: relative;
   z-index: 3;
   width: 100%;
+  /* Push the hero content clear of the absolute meta row above it,
+     so the giant PORTFOLIO title reads cleanly. */
+  margin-top: 3.5rem;
 }
 .hero__eyebrow {
-  font-size: clamp(0.85rem, 1.4vw, 1.05rem);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: clamp(0.8rem, 1.2vw, 0.95rem);
   font-weight: 600;
-  letter-spacing: 0.3em;
+  letter-spacing: 0.28em;
   text-transform: uppercase;
   color: var(--indigo-bright);
-  margin-bottom: 0.5rem;
+  margin-bottom: 1.5rem;
+  padding: 0.5rem 1.1rem;
+  border-radius: 999px;
+  border: 1px solid rgba(99, 102, 241, 0.45);
+  background: rgba(99, 102, 241, 0.08);
+  box-shadow: 0 0 24px rgba(99, 102, 241, 0.25),
+    inset 0 0 12px rgba(99, 102, 241, 0.12);
+  backdrop-filter: blur(6px);
+  animation: badgeGlow 3.5s ease-in-out infinite alternate;
+}
+.hero__eyebrow-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--indigo-bright);
+  box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.7);
+  animation: dotPulse 2s ease-in-out infinite;
+}
+@keyframes badgeGlow {
+  0% {
+    box-shadow: 0 0 18px rgba(99, 102, 241, 0.2),
+      inset 0 0 10px rgba(99, 102, 241, 0.1);
+  }
+  100% {
+    box-shadow: 0 0 34px rgba(99, 102, 241, 0.45),
+      inset 0 0 16px rgba(99, 102, 241, 0.18);
+  }
+}
+@keyframes dotPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 8px rgba(99, 102, 241, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(99, 102, 241, 0);
+  }
 }
 .hero__title {
   font-weight: 900;
@@ -591,6 +634,7 @@ a {
 .skill__fill {
   /* Must be block: a default inline <span> ignores width/height,
      which is why the bars previously rendered empty. */
+  position: relative;
   display: block;
   height: 100%;
   width: 0; /* animated to data-level% by JS on scroll into view */
@@ -598,6 +642,30 @@ a {
   background: linear-gradient(90deg, var(--indigo), var(--indigo-bright));
   box-shadow: 0 0 18px rgba(99, 102, 241, 0.8);
   transition: width 1.3s var(--ease);
+  overflow: hidden;
+}
+/* Animated light sweep across each filled bar. */
+.skill__fill::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.55) 50%,
+    transparent 100%
+  );
+  transform: translateX(-100%);
+  animation: skillShimmer 2.6s ease-in-out infinite;
+}
+@keyframes skillShimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  55%,
+  100% {
+    transform: translateX(200%);
+  }
 }
 .skill__name {
   font-size: clamp(1.1rem, 1.6vw, 1.4rem);
