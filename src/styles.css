@@ -20,6 +20,9 @@
   --radius: 22px;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
   --container: 1200px;
+
+  /* Celestial display font used only on the home hero title */
+  --font-display: "Cinzel", "Archivo", serif;
 }
 
 /* ---------- Reset ---------- */
@@ -169,30 +172,18 @@ a {
   border-bottom-color: var(--line);
 }
 .nav__inner {
+  position: relative;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  /* Links sit centered; the GitHub button / toggle are absolutely
+     positioned to the right so the nav stays perfectly centered. */
+  justify-content: center;
   gap: 1rem;
   height: 76px;
-}
-.nav__logo {
-  font-weight: 900;
-  font-size: 1.25rem;
-  letter-spacing: 0.02em;
-  display: flex;
-  align-items: center;
-  gap: 2px;
-}
-.nav__logo span {
-  color: var(--indigo-bright);
-  font-size: 0.7em;
-  translate: 0 -0.4em;
 }
 .nav__links {
   display: flex;
   gap: 2rem;
-  margin-left: auto;
-  margin-right: 2rem;
 }
 .nav__link {
   font-size: 0.9rem;
@@ -220,6 +211,10 @@ a {
   width: 100%;
 }
 .nav__github {
+  position: absolute;
+  right: 1.5rem;
+  top: 50%;
+  translate: 0 -50%;
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -237,6 +232,10 @@ a {
   background: rgba(79, 70, 229, 0.15);
 }
 .nav__toggle {
+  position: absolute;
+  right: 1.5rem;
+  top: 50%;
+  translate: 0 -50%;
   display: none;
   flex-direction: column;
   gap: 5px;
@@ -320,6 +319,103 @@ a {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
+/* ---------- Hero celestial "STARGLOW" motif ---------- */
+.hero__cosmos {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  width: min(78vw, 900px);
+  aspect-ratio: 1;
+  z-index: 1;
+  pointer-events: none;
+}
+/* Twinkling starfield */
+.hero__stars {
+  position: absolute;
+  inset: -20%;
+  background-image: radial-gradient(1.5px 1.5px at 20% 30%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 75% 20%, #dfe2ff, transparent),
+    radial-gradient(1px 1px at 40% 70%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 85% 65%, #c7ccff, transparent),
+    radial-gradient(1px 1px at 60% 45%, #fff, transparent),
+    radial-gradient(1px 1px at 10% 80%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 92% 40%, #fff, transparent),
+    radial-gradient(1px 1px at 30% 15%, #cfd3ff, transparent);
+  opacity: 0.7;
+  animation: twinkle 4s ease-in-out infinite alternate;
+}
+@keyframes twinkle {
+  0% {
+    opacity: 0.35;
+  }
+  100% {
+    opacity: 0.85;
+  }
+}
+/* Crossing elliptical orbits */
+.hero__orbit {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border: 1px solid rgba(129, 140, 248, 0.35);
+  border-radius: 50%;
+  box-shadow: 0 0 40px rgba(99, 102, 241, 0.25),
+    inset 0 0 40px rgba(99, 102, 241, 0.15);
+}
+.hero__orbit--1 {
+  width: 100%;
+  height: 42%;
+  translate: -50% -50%;
+  rotate: 24deg;
+  animation: orbitSpin 26s linear infinite;
+}
+.hero__orbit--2 {
+  width: 100%;
+  height: 42%;
+  translate: -50% -50%;
+  rotate: -24deg;
+  animation: orbitSpin 32s linear infinite reverse;
+}
+.hero__orbit--3 {
+  width: 68%;
+  height: 68%;
+  translate: -50% -50%;
+  border-color: rgba(129, 140, 248, 0.18);
+  border-style: dashed;
+  animation: orbitSpin 60s linear infinite;
+}
+@keyframes orbitSpin {
+  to {
+    rotate: 360deg;
+  }
+}
+/* Glowing central star core */
+.hero__core {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 14px;
+  height: 14px;
+  translate: -50% -50%;
+  rotate: 45deg;
+  background: #fff;
+  box-shadow: 0 0 24px 6px rgba(255, 255, 255, 0.7),
+    0 0 60px 18px rgba(129, 140, 248, 0.7);
+  animation: corePulse 3s ease-in-out infinite;
+}
+@keyframes corePulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  50% {
+    transform: scale(1.4);
+    opacity: 1;
+  }
+}
+
 .hero__meta {
   position: absolute;
   top: 96px;
@@ -366,6 +462,10 @@ a {
   /* Push the hero content clear of the absolute meta row above it,
      so the giant PORTFOLIO title reads cleanly. */
   margin-top: 3.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 .hero__eyebrow {
   display: inline-flex;
@@ -416,12 +516,15 @@ a {
   }
 }
 .hero__title {
-  font-weight: 900;
-  font-size: clamp(4rem, 20vw, 19rem);
-  line-height: 0.82;
-  letter-spacing: -0.04em;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(3.6rem, 17vw, 16rem);
+  line-height: 0.9;
+  letter-spacing: 0.01em;
+  text-align: center;
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
 }
 .hero__word {
   display: inline-block;
@@ -433,19 +536,60 @@ a {
   transform: none;
   transition: opacity 0.9s var(--ease), transform 0.9s var(--ease);
 }
+/* PORT — glowing brushed-metal silver, no longer flat dull white */
+.hero__word:not(.hero__word--outline) {
+  background: linear-gradient(
+    180deg,
+    #ffffff 0%,
+    #e7e9ff 28%,
+    #a9ade6 55%,
+    #ffffff 74%,
+    #c8caf0 100%
+  );
+  background-size: 100% 220%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 18px rgba(255, 255, 255, 0.35))
+    drop-shadow(0 0 42px rgba(129, 140, 248, 0.55));
+  animation: metalSheen 6s ease-in-out infinite alternate;
+}
+@keyframes metalSheen {
+  0% {
+    background-position: 0 0%;
+  }
+  100% {
+    background-position: 0 100%;
+  }
+}
+/* FOLIO — luminous indigo outline with a stronger celestial glow */
 .hero__word--outline {
   color: transparent;
   -webkit-text-stroke: 2px var(--indigo-bright);
-  text-shadow: 0 0 60px rgba(99, 102, 241, 0.35);
+  text-shadow: 0 0 40px rgba(129, 140, 248, 0.6),
+    0 0 90px rgba(99, 102, 241, 0.45);
   transition-delay: 0.12s;
+  animation: outlineFlicker 5s ease-in-out infinite alternate;
+}
+@keyframes outlineFlicker {
+  0% {
+    text-shadow: 0 0 30px rgba(129, 140, 248, 0.4),
+      0 0 70px rgba(99, 102, 241, 0.3);
+  }
+  100% {
+    text-shadow: 0 0 55px rgba(129, 140, 248, 0.75),
+      0 0 120px rgba(99, 102, 241, 0.6);
+  }
 }
 .hero__bottom {
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: flex-end;
   gap: 2rem;
   margin-top: 2.5rem;
+  text-align: left;
 }
 .hero__intro {
   max-width: 34ch;
@@ -975,6 +1119,31 @@ a {
 }
 
 /* ---------- Responsive ---------- */
+
+/* Laptops / small desktops */
+@media (max-width: 1200px) {
+  .nav__links {
+    gap: 1.4rem;
+  }
+}
+
+/* Tablets */
+@media (max-width: 1024px) {
+  .section__head {
+    margin-bottom: 2.5rem;
+  }
+  .numbers__grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .numbers__intro {
+    grid-column: span 2;
+    grid-row: auto;
+  }
+  .hero__cosmos {
+    width: min(90vw, 640px);
+  }
+}
+
 @media (max-width: 900px) {
   .nav__links {
     position: fixed;
@@ -1007,8 +1176,20 @@ a {
   .hero__meta {
     display: none;
   }
+  .hero__bottom {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1.5rem;
+  }
+  .hero__intro {
+    max-width: 46ch;
+  }
   .hero__info {
-    text-align: left;
+    text-align: center;
+  }
+  .hero__cosmos {
+    width: min(96vw, 520px);
   }
 
   .about__grid {
@@ -1042,6 +1223,20 @@ a {
 }
 
 @media (max-width: 520px) {
+  .container {
+    padding-inline: 1.15rem;
+  }
+  .hero__title {
+    font-size: clamp(3rem, 22vw, 6rem);
+  }
+  .hero__eyebrow {
+    letter-spacing: 0.18em;
+    padding: 0.45rem 0.9rem;
+  }
+  .section__head {
+    flex-direction: column;
+    gap: 0.9rem;
+  }
   .skill {
     grid-template-columns: 3rem 1fr;
   }
@@ -1054,6 +1249,17 @@ a {
   }
   .numbers__intro {
     grid-column: auto;
+  }
+}
+
+/* Very small phones */
+@media (max-width: 380px) {
+  .hero__eyebrow {
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+  }
+  .marquee__track span {
+    font-size: 0.95rem;
   }
 }
 
