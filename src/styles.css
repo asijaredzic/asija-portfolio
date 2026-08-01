@@ -567,7 +567,10 @@ a {
 }
 .skill {
   display: grid;
-  grid-template-columns: 3.5rem 1fr auto;
+  /* [percentage] [flexible track] [fixed-width name]
+     The name column is a fixed size so every track is identical in length,
+     no matter how long the label is. */
+  grid-template-columns: 3.5rem 1fr 14rem;
   align-items: center;
   gap: 1.25rem;
 }
@@ -577,12 +580,29 @@ a {
   color: var(--indigo-bright);
   font-variant-numeric: tabular-nums;
 }
-.skill__track {  height: 10px; border-radius: 999px; background: var(--surface); border: 1px solid var(--line); overflow: hidden; } 
-.skill__fill { height: 100%; width: 0; border-radius: 999px; background: linear-gradient(90deg, var(--indigo), var(--indigo-bright)); box-shadow: 0 0 18px rgba(99, 102, 241, 0.8); transition: width 1.3s var(--ease); }
+.skill__track {
+  display: block;
+  height: 10px;
+  border-radius: 999px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  overflow: hidden;
+}
+.skill__fill {
+  /* Must be block: a default inline <span> ignores width/height,
+     which is why the bars previously rendered empty. */
+  display: block;
+  height: 100%;
+  width: 0; /* animated to data-level% by JS on scroll into view */
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--indigo), var(--indigo-bright));
+  box-shadow: 0 0 18px rgba(99, 102, 241, 0.8);
+  transition: width 1.3s var(--ease);
+}
 .skill__name {
-  font-size: clamp(1.1rem, 2vw, 1.6rem);
+  font-size: clamp(1.1rem, 1.6vw, 1.4rem);
   font-weight: 700;
-  white-space: nowrap;
+  line-height: 1.2;
 }
 
 /* ---------- Numbers (bento) ---------- */

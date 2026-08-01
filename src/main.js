@@ -17,18 +17,31 @@ const prefersReduced = window.matchMedia(
   "(prefers-reduced-motion: reduce)"
 ).matches;
 
-/* ---------- Render skills ---------- */
+/* ---------- Render skills ----------
+   Each fill starts at width:0 and stores its target in data-level.
+   initReveal() reads data-level and animates the width when the
+   bar scrolls into view. The <track> width is fixed by CSS so every
+   bar is exactly the same length regardless of the label. */
 function renderSkills() {
   const list = document.getElementById("skillsList");
   if (!list) return;
+
   list.innerHTML = SKILLS.map(
-    (s) => `
+    (skill) => `
       <li class="skill reveal">
-        <span class="skill__pct">${s.level}%</span>
+        <span class="skill__pct">${skill.level}%</span>
         <span class="skill__track">
-          <span class="skill__fill" style="width:${s.level}%"></span>
+          <span
+            class="skill__fill"
+            data-level="${skill.level}"
+            role="progressbar"
+            aria-valuenow="${skill.level}"
+            aria-valuemin="0"
+            aria-valuemax="100"
+            aria-label="${skill.name}"
+          ></span>
         </span>
-        <span class="skill__name">${s.name}</span>
+        <span class="skill__name">${skill.name}</span>
       </li>`
   ).join("");
 }
@@ -124,6 +137,18 @@ function initHero() {
 }
 
 /* ---------- Scroll reveal + skill bars ---------- */
+function fillSkillBar(fill) {
+  const level = Number(fill.getAttribute("data-level")) || 0;
+  if (prefersReduced) {
+    fill.style.width = level + "%";
+    return;
+  }
+  // rAF ensures the browser paints width:0 first, so the transition runs.
+  requestAnimationFrame(() => {
+    fill.style.width = level + "%";
+  });
+}
+
 function initReveal() {
   const revealEls = document.querySelectorAll(".reveal");
   const io = new IntersectionObserver(
@@ -132,16 +157,10 @@ function initReveal() {
         if (!entry.isIntersecting) return;
         entry.target.classList.add("is-visible");
 
-        // Animate skill bar inside, if present
-        const fill = entry.target.querySelector
-          ? entry.target.querySelector(".skill__fill")
-          : null;
-        if (fill) {
-          const level = fill.getAttribute("data-level");
-          requestAnimationFrame(() => {
-            fill.style.width = level + "%";
-          });
-        }
+        // Animate any skill bar contained in this element.
+        entry.target
+          .querySelectorAll(".skill__fill")
+          .forEach((fill) => fillSkillBar(fill));
 
         io.unobserve(entry.target);
       });
